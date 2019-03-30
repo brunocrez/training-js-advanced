@@ -28,6 +28,22 @@ class NegociacaoController {
         this._limpaFormulario();     
     }
 
+    importarNegociacoes() {
+        let service = new NegociacaoService()
+        
+        service.obterNegociacoesSemana((erro, resultado) => {
+
+            if (erro) {
+                this._mensagem.texto = erro;
+                return;
+            }
+            
+            resultado.forEach(item => this._listaNegociacoes.adiciona(item));
+            this._mensagem.texto = 'Negociações importadas com sucesso!'           
+            
+        });
+    }
+
     _criaNegociacao() {
         return new Negociacao(
             DateHelper.textoParaData(this._inputData.value),
